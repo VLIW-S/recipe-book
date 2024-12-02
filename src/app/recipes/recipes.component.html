@@ -3,6 +3,10 @@
     <app-recipe-list></app-recipe-list>
   </div>
   <div class="col-md-7">
-    <app-recipe-detail></app-recipe-detail>
+    @if (selectedRecipe()) {
+    <app-recipe-detail [recipe]="selectedRecipe()"></app-recipe-detail>
+    } @else {
+    <p>Please selected a Recipe!</p>
+    }
   </div>
 </div>
