@@ -1,15 +1,14 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { DropdownDirective } from '../shared/dropdown.directive';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  standalone: true,
-  imports: [DropdownDirective],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    imports: [DropdownDirective]
 })
 export class HeaderComponent {
   isCollapse = signal(true);
-  @Output() featureSelected = new EventEmitter<string>();
+  featureSelected = output<string>();
 
   collapse() {
     this.isCollapse.update((value) => !value);

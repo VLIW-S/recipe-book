@@ -6,7 +6,7 @@
 <hr />
 <div class="row">
   <div class="col-xs-12">
-    @for(recipeEl of recipes; track recipeEl) {
+    @for(recipeEl of recipes(); track recipeEl) {
     <app-recipe-item [recipe]="recipeEl"></app-recipe-item>
     }
   </div>

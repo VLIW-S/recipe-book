@@ -1,33 +1,39 @@
 import {
   Component,
-  ElementRef,
   inject,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { Ingredient } from '../../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list.service';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, } from '@angular/forms';
 
 @Component({
-  selector: 'app-shopping-edit',
-  templateUrl: './shopping-edit.component.html',
-  styleUrls: ['./shopping-edit.component.css'],
-  standalone: true,
-  imports: [],
+    selector: 'app-shopping-edit',
+    templateUrl: './shopping-edit.component.html',
+    styleUrls: ['./shopping-edit.component.css'],
+    imports: [ReactiveFormsModule]
 })
 export class ShoppingEditComponent implements OnInit {
-  @ViewChild('nameInput') nameInputRef: ElementRef;
-  @ViewChild('nameAmount') nameAmountRef: ElementRef;
-  private slService = inject(ShoppingListService);
+  private shoppingListlService = inject(ShoppingListService);
+  form = new FormGroup({
+    name: new FormControl('', {validators: [Validators.required]}),
+    amount: new FormControl('', {validators: [Validators.required]})
+  });
   
   constructor() {}
 
   ngOnInit() {}
 
-  onAddItem() {
-    const ingName = this.nameInputRef.nativeElement.value;
-    const ingAmount = this.nameAmountRef.nativeElement.value;
+  onSubmit() {
+    if (this.form.invalid) {
+      return;
+    }
+
+    const ingName = this.form.value.name;
+    const ingAmount = +this.form.value.amount;
     const newIngredient = new Ingredient(ingName, ingAmount);
-    this.slService.addIngredient(newIngredient);
+    this.shoppingListlService.addIngredient(newIngredient);
+
+    this.form.reset();
   }
 }

@@ -1,4 +1,4 @@
-import { EventEmitter, inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
@@ -8,10 +8,10 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
   providedIn: 'root',
 })
 export class RecipeService {
-  recipeSelected = new EventEmitter<Recipe>();
-  private slService = inject(ShoppingListService);
+  recipeSelected = signal<Recipe>(undefined);
+  private shoppingListlService = inject(ShoppingListService);
 
-  private recipes: Recipe[] = [
+  private recipes = signal<Recipe[]>([
     new Recipe(
       'Tasty Schnitzel',
       'A super-tasty Schnitzel - just awesome!',
@@ -24,15 +24,13 @@ export class RecipeService {
       'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
       [new Ingredient('Buns', 2), new Ingredient('Meat', 1)]
     ),
-  ];
+  ])
+
+  allRecipes = this.recipes.asReadonly;
 
   constructor() {}
 
-  getRecipes() {
-    return this.recipes.slice();
-  }
-
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
-    this.slService.addIngredients(ingredients);
+    this.shoppingListlService.addIngredients(ingredients);
   }
 }
