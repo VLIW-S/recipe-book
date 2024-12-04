@@ -8,7 +8,6 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
   providedIn: 'root',
 })
 export class RecipeService {
-  recipeSelected = signal<Recipe>(undefined);
   private shoppingListlService = inject(ShoppingListService);
 
   private recipes = signal<Recipe[]>([
@@ -27,6 +26,10 @@ export class RecipeService {
   ])
 
   allRecipes = this.recipes.asReadonly;
+
+  getRecipe(id: number) {
+    return this.recipes()[id];
+  }
 
   constructor() {}
 

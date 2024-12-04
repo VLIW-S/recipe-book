@@ -1,12 +1,7 @@
 <div class="row">
-  <div class="col-md-5">
+  <div class="col-md-5 col-m-b">
     <app-recipe-list></app-recipe-list>
   </div>
   <div class="col-md-7">
-    @if (selectedRecipe()) {
-    <app-recipe-detail [recipe]="selectedRecipe()"></app-recipe-detail>
-    } @else {
-    <p>Please selected a Recipe!</p>
-    }
-  </div>
+  <router-outlet></router-outlet>
 </div>

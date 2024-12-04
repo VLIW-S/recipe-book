@@ -1,20 +1,16 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { DropdownDirective } from '../shared/dropdown.directive';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
-    imports: [DropdownDirective]
+    imports: [DropdownDirective, RouterLink, RouterLinkActive]
 })
 export class HeaderComponent {
   isCollapse = signal(true);
-  featureSelected = output<string>();
 
   collapse() {
     this.isCollapse.update((value) => !value);
-  }
-
-  onSelect(feature: string) {
-    this.featureSelected.emit(feature);
   }
 }

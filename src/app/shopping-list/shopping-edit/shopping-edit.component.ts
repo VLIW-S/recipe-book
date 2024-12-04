@@ -24,6 +24,10 @@ export class ShoppingEditComponent implements OnInit {
 
   ngOnInit() {}
 
+  capitalizeFirstLetter(string: string) {
+    return string[0].toUpperCase() + string.slice(1).toLowerCase();
+}
+
   onSubmit() {
     if (this.form.invalid) {
       return;
@@ -31,7 +35,7 @@ export class ShoppingEditComponent implements OnInit {
 
     const ingName = this.form.value.name;
     const ingAmount = +this.form.value.amount;
-    const newIngredient = new Ingredient(ingName, ingAmount);
+    const newIngredient = new Ingredient(this.capitalizeFirstLetter(ingName), ingAmount);
     this.shoppingListlService.addIngredient(newIngredient);
 
     this.form.reset();
