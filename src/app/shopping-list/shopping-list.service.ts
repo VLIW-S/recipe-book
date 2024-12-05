@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 import { Injectable, signal } from '@angular/core';
 
@@ -5,12 +6,46 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class ShoppingListService {
+  startedEditing = new Subject<number>();
+
+  /*
   private ingredients = signal<Ingredient[]>([
     new Ingredient('Apples', 5),
     new Ingredient('Tomatoes', 10),
   ]);
+  */
+
+  private ingredients = signal<Ingredient[]>([])
 
   allIngredients = this.ingredients.asReadonly;
+
+  getIngredient(index: number) {
+    return this.ingredients()[index];
+  }
+
+  getIngredients() {
+    return this.ingredients();
+  }
+
+  setIngredients(recipes: Ingredient[]) {
+    this.ingredients.set(recipes);
+  }
+
+  updateIngredients(index: number, updateItem: Ingredient) {
+    this.ingredients.update((value) => {
+      const copyCurrentList = [...value];
+      copyCurrentList[index] = updateItem;
+      return copyCurrentList;
+    })
+  }
+
+  deleteIngredients(index: number) {
+    this.ingredients.update((value) => {
+      const copyCurrentList = [...value];
+      copyCurrentList.splice(index, 1);
+      return copyCurrentList;
+    })
+  }
 
   addIngredient(ingredient: Ingredient) {
     this.ingredients.update((value) => {
@@ -47,7 +82,6 @@ export class ShoppingListService {
       const copyCurrentList = [...value];
 
       ingredients.forEach((ingredient) => {
-        debugger;
         const indexItem = copyCurrentList.findIndex(
           (item) => item.name === ingredient.name
         );

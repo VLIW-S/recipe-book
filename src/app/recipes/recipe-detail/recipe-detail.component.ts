@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { DropdownDirective } from '../../shared/dropdown.directive';
-import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Recipe } from '../../shared/recipe.model';
 
 @Component({
     selector: 'app-recipe-detail',
@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class RecipeDetailComponent implements OnInit {
   recipe = signal<Recipe>(undefined);
-  id: number;
+  index: number;
   private recipeService = inject(RecipeService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -23,8 +23,8 @@ export class RecipeDetailComponent implements OnInit {
   ngOnInit() {
     const subscribtion = this.route.params.subscribe({
       next: param => {
-        this.id = +param['id'];
-        this.recipe.set(this.recipeService.getRecipe(this.id));
+        this.index = +param['id'];
+        this.recipe.set(this.recipeService.getRecipe(this.index));
       } 
     });
 
@@ -37,5 +37,10 @@ export class RecipeDetailComponent implements OnInit {
 
   onEditRecipe() {
     this.router.navigate(['edit'], {relativeTo: this.route});
+  }
+
+  onDelete() {
+    this.recipeService.deleteRecipe(this.index);
+    this.router.navigate(['../'], {relativeTo: this.route})
   }
 }

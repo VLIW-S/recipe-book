@@ -13,12 +13,12 @@
           />
           @if(form.controls.name.touched && form.controls.name.dirty &&
           form.controls.name.invalid) {
-          <span id="help-name" class="help-block"
-            >Please enter a valid name.</span
+          <span id="help-name" class="help-block alert alert-danger"
+            >Please enter a valid name!</span
           >
           }
         </div>
-        <div class="col-sm-2 form-group">
+        <div class="col-sm-4 form-group">
           <label for="amount">Amount</label>
           <input
             type="number"
@@ -29,8 +29,8 @@
           />
           @if(form.controls.amount.touched && form.controls.amount.dirty &&
           form.controls.amount.invalid) {
-          <span id="help-amount" class="help-block"
-            >Please enter a valid amount.</span
+          <span id="help-amount" class="help-block alert alert-danger"
+            >Please enter a valid amount!</span
           >
           }
         </div>
@@ -43,10 +43,10 @@
               type="submit"
               [disabled]="form.invalid"
             >
-              Add
+              {{isEditMode ? 'Update' : 'Add'}}
             </button>
-            <button class="btn btn-danger" type="button">Delete</button>
-            <button class="btn btn-primary" type="button">Clear</button>
+            <button [disabled]="!isEditMode" (click)="onDelete()"class="btn btn-danger" type="button">Delete</button>
+            <button (click)="onClear()" class="btn btn-primary" type="button">Clear</button>
           </div>
         </div>
       </div>

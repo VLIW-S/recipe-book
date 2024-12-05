@@ -6,3 +6,11 @@ div.row-m-b, div.col-m-b{
     margin-bottom: 10px;
 }
 
+div.row-m-t, div.col-m-t{
+    margin-top: 10px;
+}
+
+div.spinner {
+    text-align: center;
+}
+

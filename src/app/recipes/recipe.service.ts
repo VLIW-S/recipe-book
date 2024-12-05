@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 
-import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
+import { Recipe } from '../shared/recipe.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,8 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
 export class RecipeService {
   private shoppingListlService = inject(ShoppingListService);
 
-  private recipes = signal<Recipe[]>([
+  /* 
+   private recipes = signal<Recipe[]>([
     new Recipe(
       'Tasty Schnitzel',
       'A super-tasty Schnitzel - just awesome!',
@@ -24,16 +25,52 @@ export class RecipeService {
       [new Ingredient('Buns', 2), new Ingredient('Meat', 1)]
     ),
   ])
+  */
+
+  private recipes = signal<Recipe[]>([]);
 
   allRecipes = this.recipes.asReadonly;
 
+  setRecipes(recipes: Recipe[]) {
+    this.recipes.set(recipes);
+  }
+
   getRecipe(id: number) {
     return this.recipes()[id];
+  }
+
+  getRecipes() {
+    return this.recipes();
   }
 
   constructor() {}
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.shoppingListlService.addIngredients(ingredients);
+  }
+
+  updateRecipe(index: number, updateItem: Recipe) {
+    this.recipes.update((value) => {
+      const copyCurrentList = [...value];
+      copyCurrentList[index] = updateItem;
+      return copyCurrentList;
+    })
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.update((value) => {
+      const copyCurrentList = [...value];
+      copyCurrentList.splice(index, 1);
+      return copyCurrentList;
+    })
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.update(value => {
+      const copyCurrentList = [...value];
+      copyCurrentList.push(recipe);
+
+      return copyCurrentList;
+    })
   }
 }
