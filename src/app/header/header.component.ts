@@ -9,6 +9,7 @@ import {
 import { DataStoreServices } from '../shared/data-storage.service';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -19,24 +20,37 @@ export class HeaderComponent implements OnInit {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private dataStoreServices = inject(DataStoreServices);
+  private authService = inject(AuthService);
   isCollapse = true;
+  isAuthenticated = false;
   currentUrl: string;
-  subscription: Subscription;
+  routerEventsSub: Subscription;
+  userSub: Subscription;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.subscription = this.router.events
+    this.routerEventsSub = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
         this.currentUrl = event.url;
       });
+    this.destroyRef.onDestroy(() => this.routerEventsSub.unsubscribe);
 
-    this.destroyRef.onDestroy(() => this.subscription.unsubscribe);
+    this.userSub = this.authService.user.subscribe({
+      next: (user) => {
+        this.isAuthenticated = !user ? false : true;
+      },
+    });
+    this.destroyRef.onDestroy(() => this.userSub.unsubscribe);
   }
 
   collapse() {
     this.isCollapse = !this.isCollapse;
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 
   onSaveData() {

@@ -11,9 +11,9 @@ import { Recipe } from './recipe.model';
   providedIn: 'root',
 })
 export class DataStoreServices {
-  httpClient = inject(HttpClient);
-  recipeService = inject(RecipeService);
-  shoppingListService = inject(ShoppingListService);
+  private httpClient = inject(HttpClient);
+  private recipeService = inject(RecipeService);
+  private shoppingListService = inject(ShoppingListService);
 
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();

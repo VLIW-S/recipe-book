@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { AuthResponseData, AuthService } from './auth.service';
 import { SpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -11,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
   isLoginMode = true;
   isLoading = false;
   error: string = null;
@@ -40,6 +42,7 @@ export class AuthComponent {
       next: (resData) => {
         console.log(resData);
         this.isLoading = false;
+        this.router.navigate(['./recipes']);
       },
       error: (errorMessage) => {
         this.error = errorMessage;
