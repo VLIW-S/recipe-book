@@ -9,6 +9,8 @@ import { Recipe } from '../shared/recipe.model';
 })
 export class RecipeService {
   private shoppingListlService = inject(ShoppingListService);
+  isLoadingData = signal<boolean>(false);
+  errorData = signal<string>('');
 
   /* 
    private recipes = signal<Recipe[]>([

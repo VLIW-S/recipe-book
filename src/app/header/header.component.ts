@@ -10,6 +10,7 @@ import { DataStoreServices } from '../shared/data-storage.service';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { RecipeService } from '../recipes/recipe.service';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private dataStoreServices = inject(DataStoreServices);
   private authService = inject(AuthService);
+  private recipeService = inject(RecipeService);
   isCollapse = true;
   isAuthenticated = false;
   currentUrl: string;
@@ -62,10 +64,21 @@ export class HeaderComponent implements OnInit {
   }
 
   onFetchData() {
+    this.recipeService.isLoadingData.set(true);
     if (this.currentUrl === '/shopping-list') {
       this.dataStoreServices.fetchShoppingList();
     } else if (this.currentUrl === '/recipes') {
-      this.dataStoreServices.fetchRecipes().subscribe();
+      this.dataStoreServices.fetchRecipes().subscribe(
+        {
+          error: (errorMessage) => {
+            this.recipeService.errorData.set(errorMessage);
+            this.recipeService.isLoadingData.set(false);
+          },
+          complete: () => {
+            this.recipeService.isLoadingData.set(false);
+          },
+        }
+      );
     } else return;
   }
 }

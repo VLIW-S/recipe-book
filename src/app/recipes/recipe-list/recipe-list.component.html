@@ -6,8 +6,17 @@
 <hr/>
 <div class="row">
   <div class="col-xs-12">
-    @for(recipeEl of recipes(); track recipeEl.name; let idx = $index) {
+    @if (error()) {
+    <div class="alert alert-danger">
+      <p>{{ error() }}</p>
+    </div>
+    } @if (isLoading()) {
+    <div class="spinner">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    } @if (!isLoading()) { @for(recipeEl of recipes(); track recipeEl.name; let
+    idx = $index) {
     <app-recipe-item [recipe]="recipeEl" [id]="idx"></app-recipe-item>
-    }
+    } }
   </div>
 </div>

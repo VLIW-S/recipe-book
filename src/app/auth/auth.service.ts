@@ -4,15 +4,7 @@ import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from '../shared/user.model';
 import { Router } from '@angular/router';
-
-export interface AuthResponseData {
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  registered?: boolean;
-}
+import { AuthResponseData } from './auth.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

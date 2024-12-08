@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { AuthResponseData, AuthService } from './auth.service';
+import { AuthService } from './auth.service';
 import { SpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthResponseData } from './auth.interface';
 
 @Component({
   selector: 'app-auth',
@@ -33,9 +34,9 @@ export class AuthComponent {
     this.isLoading = true;
 
     if (!this.isLoginMode) {
-      authObs =this.authService.signUp(email, password);
+      authObs = this.authService.signUp(email, password);
     } else {
-      authObs =this.authService.signIn(email, password);
+      authObs = this.authService.signIn(email, password);
     }
 
     authObs.subscribe({
