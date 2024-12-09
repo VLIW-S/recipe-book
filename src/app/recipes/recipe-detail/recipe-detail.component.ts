@@ -3,6 +3,8 @@ import { DropdownDirective } from '../../shared/dropdown.directive';
 import { RecipeService } from '../recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from '../../shared/recipe.model';
+import { Store } from '@ngrx/store';
+import { deleteRecipe } from '../../store/recipes.actions';
 
 @Component({
     selector: 'app-recipe-detail',
@@ -17,6 +19,7 @@ export class RecipeDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private destrojRef = inject(DestroyRef);
+  private store = inject(Store<Recipe[]>);
 
   constructor() {}
 
@@ -41,6 +44,8 @@ export class RecipeDetailComponent implements OnInit {
 
   onDelete() {
     this.recipeService.deleteRecipe(this.index);
+    // NgRx
+    this.store.dispatch(deleteRecipe({index: this.index}));
     this.router.navigate(['../'], {relativeTo: this.route})
   }
 }

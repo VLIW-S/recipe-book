@@ -9,6 +9,9 @@ import {
 } from '@angular/forms';
 
 import { RecipeService } from '../recipe.service';
+import { Store } from '@ngrx/store';
+import { addRecipe } from '../../store/recipes.actions';
+import { Recipe } from '../../shared/recipe.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -23,6 +26,7 @@ export class RecipeEditComponent implements OnInit {
   private destrojRef = inject(DestroyRef);
   private router = inject(Router);
   private recipeService = inject(RecipeService);
+  private store = inject(Store);
   recipeForm: FormGroup;
 
   get recipeControls() {
@@ -47,6 +51,15 @@ export class RecipeEditComponent implements OnInit {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
+      // NgRx
+      this.store.dispatch(addRecipe({
+        recipe: new Recipe(
+          this.recipeForm.controls.name.value,
+          this.recipeForm.controls.description.value,
+          this.recipeForm.controls.imagePath.value,
+          this.recipeForm.controls.ingredients.value,
+        )
+      }));
     }
     this.onCancel();
   }
@@ -89,7 +102,10 @@ export class RecipeEditComponent implements OnInit {
         for (let ingredient of recipe.ingredients) {
           recipeIngredients.push(
             new FormGroup({
-              name: new FormControl<string>(ingredient.name, Validators.required),
+              name: new FormControl<string>(
+                ingredient.name,
+                Validators.required
+              ),
               amount: new FormControl<number>(ingredient.amount, [
                 Validators.required,
                 Validators.pattern(/^[1-9]+[0-9]*$/),

@@ -37,14 +37,14 @@ export class HeaderComponent implements OnInit {
       .subscribe((event) => {
         this.currentUrl = event.url;
       });
-    this.destroyRef.onDestroy(() => this.routerEventsSub.unsubscribe);
+    this.destroyRef.onDestroy(() => this.routerEventsSub.unsubscribe());
 
     this.userSub = this.authService.user.subscribe({
       next: (user) => {
         this.isAuthenticated = !user ? false : true;
       },
     });
-    this.destroyRef.onDestroy(() => this.userSub.unsubscribe);
+    this.destroyRef.onDestroy(() => this.userSub.unsubscribe());
   }
 
   collapse() {

@@ -18,5 +18,10 @@
     idx = $index) {
     <app-recipe-item [recipe]="recipeEl" [id]="idx"></app-recipe-item>
     } }
+    <!-- NgRx -->
+    @for(recipeEl of recipes$ | async; track recipeEl.name; let
+    idx = $index) {
+    <app-recipe-item [recipe]="recipeEl" [id]="idx"></app-recipe-item>
+    } 
   </div>
 </div>

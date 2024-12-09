@@ -44,7 +44,7 @@ export class ShoppingEditComponent implements OnInit {
       },
     });
 
-    this.destroyRef.onDestroy(() => this.subscription.unsubscribe);
+    this.destroyRef.onDestroy(() => this.subscription.unsubscribe());
   }
 
   capitalizeFirstLetter(string: string) {
