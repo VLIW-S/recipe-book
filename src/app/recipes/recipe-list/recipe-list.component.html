@@ -3,25 +3,26 @@
     <button class="btn btn-success" (click)="onNewRecipe()">New Recipe</button>
   </div>
 </div>
-<hr/>
+<hr />
 <div class="row">
   <div class="col-xs-12">
-    @if (error()) {
+    @if (error$ | async) {
     <div class="alert alert-danger">
-      <p>{{ error() }}</p>
+      <p>{{ error$ | async}}</p>
     </div>
-    } @if (isLoading()) {
+    } @if (isLoading$ | async) {
     <div class="spinner">
       <app-loading-spinner></app-loading-spinner>
     </div>
-    } @if (!isLoading()) { @for(recipeEl of recipes(); track recipeEl.name; let
+    } 
+    <!-- @if (!isLoading()) { @for(recipeEl of recipes(); track recipeEl.name; let
     idx = $index) {
+    <app-recipe-item [recipe]="recipeEl" [id]="idx"></app-recipe-item>
+    } } -->
+
+    @if(!(isLoading$ | async)) { @for(recipeEl of recipes$ | async; track
+    recipeEl.name; let idx = $index) {
     <app-recipe-item [recipe]="recipeEl" [id]="idx"></app-recipe-item>
     } }
-    <!-- NgRx -->
-    @for(recipeEl of recipes$ | async; track recipeEl.name; let
-    idx = $index) {
-    <app-recipe-item [recipe]="recipeEl" [id]="idx"></app-recipe-item>
-    } 
   </div>
 </div>

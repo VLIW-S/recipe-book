@@ -9,13 +9,16 @@ import {
 } from '@angular/common/http';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { provideStore } from '@ngrx/store';
-import { recipesReducer } from './store/recipes.reducer';
+import { stateReducer } from './store/recipes.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { RecipesEffects } from './store/recipes.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withInterceptors([AuthInterceptorService]),withInterceptorsFromDi()),
-    provideStore({recipes: recipesReducer}),
+    provideStore({state: stateReducer}),
+    provideEffects(RecipesEffects)
     //{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
 };

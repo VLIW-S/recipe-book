@@ -8,7 +8,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Recipe } from '../../shared/recipe.model';
 import { AsyncPipe } from '@angular/common';
-import { selectRecipes } from '../../store/recipes.selectors';
+import {
+  selectErrorRecipes,
+  selectIsLoadingRecipes,
+  selectRecipes,
+} from '../../store/recipes.selectors';
 
 @Component({
   selector: 'app-recipe-list',
@@ -25,10 +29,13 @@ export class RecipeListComponent implements OnInit {
   isLoading = this.recipeService.isLoadingData;
   error = this.recipeService.errorData;
   recipes$: Observable<Recipe[]>;
+  isLoading$: Observable<boolean>;
+  error$: Observable<string>;
 
   constructor() {
-    // NgRx
     this.recipes$ = this.store.select(selectRecipes);
+    this.isLoading$ = this.store.select(selectIsLoadingRecipes);
+    this.error$ = this.store.select(selectErrorRecipes);
   }
 
   onNewRecipe() {

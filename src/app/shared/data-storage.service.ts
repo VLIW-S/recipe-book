@@ -16,8 +16,8 @@ export class DataStoreServices {
   private recipeService = inject(RecipeService);
   private shoppingListService = inject(ShoppingListService);
 
-  storeRecipes() {
-    const recipes = this.recipeService.getRecipes();
+  storeRecipes(recipes: Recipe[]) {
+    //const recipes = this.recipeService.getRecipes();
 
     return this.httpClient
       .put(
@@ -25,9 +25,11 @@ export class DataStoreServices {
         recipes
       )
       .pipe(catchError(this.handleError))
+      /*
       .subscribe((res) => {
         console.log(res);
       });
+      */
   }
 
   fetchRecipes() {
