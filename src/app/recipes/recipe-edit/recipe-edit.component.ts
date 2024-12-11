@@ -50,8 +50,7 @@ export class RecipeEditComponent implements OnInit {
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
-      this.recipeService.addRecipe(this.recipeForm.value);
-      // NgRx
+      //this.recipeService.addRecipe(this.recipeForm.value);
       this.store.dispatch(addRecipe({
         recipe: new Recipe(
           this.recipeForm.controls.name.value,

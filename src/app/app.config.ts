@@ -1,6 +1,6 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { routes } from './app-routing.module';
+import { routes } from './app-routing';
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
